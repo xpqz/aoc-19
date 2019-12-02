@@ -19,8 +19,8 @@
   (vector-set! st 2 verb)
   (for/or ([instr (in-slice 4 st)])
     (match instr
-      [(list 1 in1 in2 out) (opcode! st in1 in2 out +) #f]
-      [(list 2 in1 in2 out) (opcode! st in1 in2 out *) #f]
+      [`(1 ,in1 ,in2 ,out) (opcode! st in1 in2 out +) #f]
+      [`(2 ,in1 ,in2 ,out) (opcode! st in1 in2 out *) #f]
       [_ (vector-ref st 0)])))
 
 (printf "Part1: ~a\n" (run data 12 2))
