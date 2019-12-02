@@ -9,7 +9,7 @@
 (define data (stream->list (map string->number (string-split
                                                 (first (file->lines "data/input02.data")) ","))))
 
-(define (opcode state i1 i2 out fn)
+(define (opcode! state i1 i2 out fn)
   (vector-set! state out (fn (vector-ref state i1) (vector-ref state i2)))
   state)
 
@@ -26,8 +26,8 @@
     (cond [(and (> target 0) (> (vector-ref state 0) target)) (vector-ref state 0)]
           [else
            (match (instr ip state)
-             [(list 1 in1 in2 out) (loop (+ ip 4) (opcode state in1 in2 out +))]
-             [(list 2 in1 in2 out) (loop (+ ip 4) (opcode state in1 in2 out *))]
+             [(list 1 in1 in2 out) (loop (+ ip 4) (opcode! state in1 in2 out +))]
+             [(list 2 in1 in2 out) (loop (+ ip 4) (opcode! state in1 in2 out *))]
              [_ (vector-ref state 0)])])))
              
 
