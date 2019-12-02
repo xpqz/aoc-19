@@ -10,8 +10,7 @@
                                                 (first (file->lines "data/input02.data")) ","))))
 
 (define (opcode! state i1 i2 out fn)
-  (vector-set! state out (fn (vector-ref state i1) (vector-ref state i2)))
-  state)
+  (vector-set! state out (fn (vector-ref state i1) (vector-ref state i2))))
 
 (define (run data noun verb)
   (define st (list->vector data))
