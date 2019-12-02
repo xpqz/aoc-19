@@ -25,7 +25,6 @@
   (let loop ([ip 0] [state st])
     (cond [(and (> target 0) (> (vector-ref state 0) target)) (vector-ref state 0)]
           [else
-           (define i (instr ip state))
            (match (instr ip state)
              [(list 1 in1 in2 out) (loop (+ ip 4) (opcode state in1 in2 out +))]
              [(list 2 in1 in2 out) (loop (+ ip 4) (opcode state in1 in2 out *))]
