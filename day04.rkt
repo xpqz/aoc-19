@@ -24,8 +24,7 @@
   
 (define (valid? num allow-multiples)
   (define number-string (number->string num))
-  (define digit-list (string->list number-string))
-  (cond [(not (monotonic? digit-list)) #f]
+  (cond [(not (monotonic? (string->list number-string))) #f]
         [else (repeats? number-string allow-multiples)]))
 
 (define (count-valid data [allow-multiples #t])
