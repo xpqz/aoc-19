@@ -1,8 +1,17 @@
-RESULT = 0
+#!/usr/bin/env python
+# coding: utf-8
+#
+# Day 5: Sunny with a Chance of Asteroids
+#
+# https://adventofcode.com/2019/day/5
+#
+# By Stefan Kruger
+
 
 def read_data(filename="data/input05.data"):
     with open(filename) as f:
         return (list(map(int, f.read().split(","))))
+
 
 def read_string(data):
     return (list(map(int, data.split(","))))
@@ -22,14 +31,6 @@ def mul(data, ip, modes):
         value(data, modes[0], params[0]) *
         value(data, modes[1], params[1]))
     return ip + 4
-
-
-def prn(data, ip, modes):
-    param = data[ip+1]
-    v = value(data, modes[0], param)
-    if v != 0:
-        print(v)
-    return ip + 2
 
 
 def jt(data, ip, modes):
@@ -66,7 +67,7 @@ OPCODES = {
     1: (add, 3),
     2: (mul, 3),
     3: (None, 1),
-    4: (prn, 1),
+    4: (None, 1),
     5: (jt, 2),
     6: (jf, 2),
     7: (lt, 3),
@@ -84,12 +85,9 @@ def value(data, mode, param):
 def parse_opcode(opcode):
     if opcode < 10:
         return [0] * OPCODES[opcode][1], opcode
-
     str_opc = str(opcode)
     op = int(str_opc[-2:])
     params = OPCODES[op][1]
-    assert op in [1, 2, 3, 4, 5, 6, 7, 8, 99]
-
     return list(reversed(list(map(int, list(str_opc[:-2].zfill(params)))))), op
 
 
@@ -102,6 +100,13 @@ def run(code, input_data):
             data[data[ip+1]] = input_data
             ip += 2
             continue
+        elif opc == 4:
+            param = data[ip+1]
+            v = value(data, modes[0], param)
+            if v != 0:
+                return v
+            ip += 2
+            continue
         if opc == 99:
             break
 
@@ -110,7 +115,5 @@ def run(code, input_data):
 
 if __name__ == "__main__":
     d = read_data()
-    print("Part1: ", end="")
-    run(d, 1)
-    print("Part2: ", end="")
-    run(d, 5)
+    print(f"Part1: {run(d, 1)}")
+    print(f"Part2: {run(d, 5)}")
