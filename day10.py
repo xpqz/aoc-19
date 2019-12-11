@@ -7,7 +7,6 @@
 #
 # By Stefan Kruger
 
-from collections import deque
 from math import atan2, degrees, hypot
 import itertools
 
@@ -49,12 +48,10 @@ def find_best(g):
 def engage_laser(g, monitor_astr):
     zapped = 1
     while len(g) > 2:
-        visibles = deque(get_visible(g, monitor_astr))
-        while len(visibles) > 1:
-            ang, dist, n = visibles.popleft()
+        for n in get_visible(g, monitor_astr):
             if zapped == 200:
-                return n
-            g.remove(n)
+                return n[2]
+            g.remove(n[2])
             zapped += 1
 
 
