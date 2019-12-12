@@ -24,41 +24,35 @@ def lcm(x, y):
 
 @dataclass(frozen=True)
 class Moon:
-    position: Tuple[int, int, int]
-    velocity: Tuple[int, int, int]
+    pos: Tuple[int, int, int]
+    vel: Tuple[int, int, int]
 
     def gravity(self, moon):
-        return tuple([cmp(self.position[i], moon.position[i]) for i in [0, 1, 2]])
+        return tuple([cmp(self.pos[i], moon.pos[i]) for i in [0, 1, 2]])
 
     def apply_gravity(self, dv):
-        p = list(self.position)
-        v = list(self.velocity)
+        p = list(self.pos)
+        v = list(self.vel)
         for i in [0, 1, 2]:
             v[i] += dv[i]
             p[i] += v[i]
-        return Moon(position=tuple(p), velocity=tuple(v))
+        return Moon(pos=tuple(p), vel=tuple(v))
 
     def total_energy(self):
         return (
-            sum([abs(i) for i in self.position]) *
-            sum([abs(i) for i in self.velocity])
+            sum([abs(i) for i in self.pos]) *
+            sum([abs(i) for i in self.vel])
         )
 
 
 def make_moons(data):
-    positions = [
-        [int(s) for s in re.findall(r'-?\d+', line)]
-        for line in data
-    ]
+    loc = [[int(s) for s in re.findall(r'-?\d+', l)] for l in data]
 
-    return [
-        Moon(position=p, velocity=(0, 0, 0))
-        for p in positions
-    ]
+    return [Moon(pos=p, vel=(0, 0, 0))for p in loc]
 
 
 def apply_forces(moons):
-    gravities = []
+    dv = []
     for j, n in enumerate(moons):
         new_gravity = [0, 0, 0]
         for i, m in enumerate(moons):
@@ -67,26 +61,17 @@ def apply_forces(moons):
             g = n.gravity(m)
             for k in [0, 1, 2]:
                 new_gravity[k] += g[k]
-        gravities.append(new_gravity)
+        dv.append(new_gravity)
 
-    return [
-        m.apply_gravity(gravities[i])
-        for i, m in enumerate(moons)
-    ]
+    return [m.apply_gravity(dv[i]) for i, m in enumerate(moons)]
 
 
 def find_periods(data):
     moons = make_moons(data)
-    start_states = [
-        tuple((m.position[i] for m in moons))
-        for i in [0, 1, 2]
-    ]
+    start_states = [tuple((m.pos[i] for m in moons)) for i in range(3)]
     periods = [-1, -1, -1]
     for i in range(1, 300_000):
-        states = [
-            tuple((m.position[i] for m in moons))
-            for i in [0, 1, 2]
-        ]
+        states = [tuple((m.pos[i] for m in moons))for i in range(3)]
 
         if i > 1:
             for ii, st in enumerate(states):
@@ -115,10 +100,8 @@ if __name__ == "__main__":
 
     print(f"Part1: {find_energy(data, 1000)}")
 
-    # Key insight: x, y and z are independent and periodic (or there would be no solution).
-    # Find the common period
+    # Key insight: col vectors for x, y and z are independent and
+    # periodic (or there would be no solution). Find the common period.
 
     periods = find_periods(data)
-    steps = lcm(lcm(periods[0], periods[1]), periods[2])
-
-    print(f"Part2: {steps}")
+    print(f"Part2: {lcm(lcm(periods[0], periods[1]), periods[2])}")
