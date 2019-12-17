@@ -13,6 +13,14 @@ import heapq
 from intcode import read_program, resume
 
 
+def follow_path(state, path):
+    state[3] = path
+    state[4] = []
+    state = resume(state)
+
+    return state
+
+
 def neighbours(code, pos):
 
     def newpos(pos, d):
@@ -24,24 +32,13 @@ def neighbours(code, pos):
 
     result = []
     for d in [1, 2, 3, 4]:
-        state = deepcopy(code)
-        state[3] = [d]
-        state[4] = []
-        state = resume(state)
+        state = follow_path(deepcopy(code), [d])
         response = state[4][0]
         if response == 0:
             continue
         result.append((newpos(pos, d), d, int(response == 2)))
 
     return result
-
-
-def follow_path(state, path):
-    state[3] = path
-    state[4] = []
-    state = resume(state)
-
-    return state
 
 
 def unwind(came_from, start, end):
