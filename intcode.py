@@ -5,6 +5,11 @@ def decode(program):
     return defaultdict(int, enumerate(map(int, program.split(','))))
 
 
+def read_program(filename):
+    with open(filename) as f:
+        return [decode(f.read()), 0, 0, [], [], False]
+
+
 def run(program, input_callback, poke=[]):
     ip = rb = 0
     mem = decode(program)
