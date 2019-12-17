@@ -27,9 +27,6 @@ def neighbours(code, pos):
         delta = {1: (0, -1), 2: (0, 1), 3: (-1, 0), 4: (1, 0)}[d]
         return (pos[0] + delta[0], pos[1] + delta[1])
 
-    def rev(d):
-        return {1: 2, 2: 1, 3: 4, 4: 3}[d]
-
     result = []
     for d in [1, 2, 3, 4]:
         state = follow_path(deepcopy(code), [d])
