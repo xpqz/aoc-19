@@ -20,14 +20,12 @@ def parse_data(data):
     rules = {}
     for line in data:
         [left, right] = line.split(" => ")
-
         left_kv = {}
         for item in left.split(", "):
             [amount, name] = item.split(" ")
             left_kv[name] = int(amount)
 
         [factor, name] = right.split(" ")
-
         rules[name] = {"factor": int(factor), "parts": left_kv}
 
     return rules
@@ -70,8 +68,5 @@ def find_max(rules):
 
 if __name__ == "__main__":
     rules = parse_data(read_data())
-
-    ore = make_fuel(rules)
-
-    print(f"Part1: {ore}")
+    print(f"Part1: {make_fuel(rules)}")
     print(f"Part2: {find_max(rules)}")
