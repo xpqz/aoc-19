@@ -5,6 +5,10 @@ def decode(program):
     return defaultdict(int, enumerate(map(int, program.split(','))))
 
 
+def poke(code, addr, val):
+    code[0][addr] = val
+
+
 def read_program(filename):
     with open(filename) as f:
         return [decode(f.read()), 0, 0, [], [], False]
