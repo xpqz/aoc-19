@@ -7,7 +7,6 @@
 #
 # By Stefan Kruger
 
-from collections import deque
 from copy import deepcopy
 import heapq
 from intcode import read_program, resume
@@ -60,13 +59,11 @@ def breadth_first_search(code, start):
     Save the intcode VM state at each point to make backtracking
     easier.
     """
-    frontier = deque([(start, False, code, None)])
+    frontier = [(start, False, code, None)]
     came_from = {start: None}
     target = None
 
-    while frontier:
-        current, is_target, state, move = frontier.popleft()
-
+    for (current, is_target, state, move) in frontier:
         if is_target:
             target = current
 
