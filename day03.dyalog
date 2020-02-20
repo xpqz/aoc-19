@@ -8,7 +8,6 @@ DIRS ← 'U' 'D' 'R' 'L'
 
 Pairs←{↓(2÷⍨≢⍵) 2⍴⍵}                     ⍝ Turn flat lists to lists of pairs: 1 2 3 4 -> (1 2)(3 4)
 
-∇
 Follow←{                                ⍝ Follow path ⍵, accumulate list of coord pairs visited
     ⍺←0 0
     0=≢⍵: ⍺                              ⍝ Quit if ⍵ is empty, and return accumulator ⍺
@@ -17,7 +16,6 @@ Follow←{                                ⍝ Follow path ⍵, accumulate list o
     origin←(≢seq) ⍴ ⊂¯2↑∊⍺               ⍝ Vector as long as seq; elem is the last pos we got to 
     ⍺,∊(seq+origin)∇1↓⍵                  ⍝ Sum the two vectors and append, then recurse on tail
 }
-∇
 
 (path1 path2)←Pairs∘Follow¨↓DAY3
 
