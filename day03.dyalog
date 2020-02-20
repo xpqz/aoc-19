@@ -8,7 +8,8 @@ DIRS ← 'U' 'D' 'R' 'L'
 
 Pairs←{↓(2÷⍨≢⍵) 2⍴⍵}                     ⍝ Turn flat lists to lists of pairs: 1 2 3 4 -> (1 2)(3 4)
 
-∇Follow←{                                ⍝ Follow path ⍵, accumulate list of coord pairs visited
+∇
+Follow←{                                ⍝ Follow path ⍵, accumulate list of coord pairs visited
     ⍺←0 0
     0=≢⍵: ⍺                              ⍝ Quit if ⍵ is empty, and return accumulator ⍺
     (dir steps)←⊃⍵                       ⍝ Dir of travel, and number of steps, e.g. 'R' 200
