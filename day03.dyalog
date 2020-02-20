@@ -6,7 +6,7 @@ DAY3 ← 1(↑,∘⍎↓)¨ ⎕CSV'data/input03.data' ⍝ Convert each string to
 OFFSETS ← 4 2 ⍴ 0 1 0 ¯1 1 0 ¯1 0
 DIRS ← 'U' 'D' 'R' 'L'
 
-Pairs←{↓(2÷⍨≢⍵) 2⍴⍵} 
+Pairs←{↓(2÷⍨≢⍵) 2⍴⍵}                     ⍝ Turn flat lists to lists of pairs: 1 2 3 4 -> (1 2)(3 4)
 
 Follow←{                                 ⍝ Follow path ⍵, accumulate list of coord pairs visited
     0=≢⍵: ⍺                              ⍝ Quit if ⍵ is empty, and return accumulator ⍺
